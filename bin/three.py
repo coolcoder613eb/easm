@@ -42,34 +42,25 @@ else:
     debug = False
     binary = False
     interactive = False
-    readlines = r'''; demonstrating ask and concat
-; output the question
-show "What is your first name? "
-; set the variable first to: ask the question
-strvar first ask
-; output the question
-show "What is your last name? "
-; set the variable last to: ask the question
-strvar last ask
-; push the value of first to the stack
-pushstr first
-; push space to the stack
-pushstr " "
-; push concat(which will concatenate first and space) to the stack
-pushstr concat
-; push last to the stack
-pushstr last
-; push concat(which will concatenate first+space and last) to the stack
-pushstr concat
-; show the message
-show "Your name is "
-; save the value to the variable name
-strvar name pullstr
-; show the value
-show name
-; show "\n"
-if eq name "Elozor Bruce" show "\n"
-if eq name "Elozor Bruce" show "You created me!"'''.splitlines()
+    readlines = r'''; The first program written for a (probably) turing complete easm!
+; ----------------------------------------------------------------
+;
+; push 4 to the stack
+pushint 4
+; create a label called do
+: do
+; push -1 to the stack
+pushint -1
+; push: add the top two values on the stack to the stack
+pushint add
+; show: stringify: peek the top item in the stack
+show string peekint
+; if peekint != 1: show newline
+if not eq peekint 1 show "\n"
+; if peekint != 1: go to label do
+if not eq peekint 1 goto do
+; otherwise: (if peekint == 1) exit
+else exit'''.splitlines()
 
 exitprog = sys.exit
 

@@ -1,6 +1,8 @@
 # import os
 import sys
 import shlex
+import copy
+import argparse
 
 sys.argv.append('--!@#$%^&*()')
 
@@ -8,7 +10,12 @@ class EasmError(Exception):
     pass
 
 if not '--!@#$%^&*()' in sys.argv:
-    if '-d' in sys.argv or '--debug' in sys.argv:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--debug',action="store_true", help='show debug output')
+    parser.add_argument('file',default=None,nargs='?', help='easm file to run')
+    args = parser.parse_args()
+    #if '-d' in sys.argv or '--debug' in sys.argv:
+    if args.debug:
         debug = True
         if sys.argv[1] == '-d' or sys.argv[1] == '--debug':
             sys.argv.pop(1)
@@ -25,12 +32,8 @@ if not '--!@#$%^&*()' in sys.argv:
         binary = False
 
     try:
-        if binary:
-            with open(sys.argv[1], 'rb') as f:
-                readlines = f.read().splitlines()
-        else:
-            with open(sys.argv[1], 'r', encoding='utf-8') as f:
-                readlines = f.read().splitlines()
+        with open(args.file, 'r', encoding='utf-8') as f:
+            readlines = f.read().splitlines()
         interactive = False
     except:
         interactive = True
@@ -153,8 +156,27 @@ def eq():
     else:
         return 0
 
+def enot():
+    return int(not evaleasm())
+
 def ask():
     return input()
+
+def label():
+    global labels
+    name = evaleasm(isname=True)
+    line = r
+    labels.update({name: line})
+
+def goto():
+    global r, prog
+    name = evaleasm(isname=True)
+    if name in labels.keys():
+        r = labels[name]
+        prog = copy.deepcopy(oprog)
+    else:
+        raiseerror('Error in goto!')
+    #print(prog,oprog, name,labels[name])
 
 
 def show():
@@ -176,8 +198,8 @@ proglines = []
 coms = {'pushint': pushint, 'pushstr': pushstr, 'pullint': pullint, 'pullstr': pullstr, 'peekint': peekint,
         'peekstr': peekstr, 'string': string, 'int': toint, 'concat': concat,
         'show': show, 'add': add, 'mult': mult, 'div': div, 'exit': exitprog,
-        'intvar': intvar, 'strvar': strvar,'ask':ask,'if':eif,'else':eelse,'eq':eq}
-
+        'intvar': intvar, 'strvar': strvar,'ask':ask,'if':eif,'else':eelse,'eq':eq,'not':enot,':':label,'goto':goto}
+#print(coms.keys())
 # coms = ['pushint', 'pushstr', 'pullint', 'pullstr', 'string', 'int', 'show']
 is_if=True
 
@@ -185,6 +207,7 @@ str_stack = []
 int_stack = []
 str_vars  = {}
 int_vars  = {}
+labels    = {}
 
 
 def tonum(num):
@@ -225,6 +248,12 @@ def isstrvar(statement):
     else:
         return False
 
+#def islabel(statement):
+#    if statement in labels.keys():
+#        return True
+#    else:
+#        return False
+
 
 # print('\n'.join(proglines))
 
@@ -247,7 +276,7 @@ def evaleasm(isname=False):
         # print('statement:',statement,'| is string:', [isstr],'| is num:', [isnum],'| int stack:', int_stack,'| str stack:', str_stack)
         print('statement:', [statement], 'is command:', [is_com], 'is string:', [isstr], 'is num:', [isnum],
               'is str var:', [is_strvar], 'is int var:', [is_intvar], 'int stack:', int_stack,
-              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars],'is if',is_if)
+              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars],'labels:',[labels],'is if',is_if)
     #print(isnum is not None)
     if isnum is not False:
         return isnum
@@ -264,7 +293,9 @@ def evaleasm(isname=False):
 
 
 prog = []
+oprog = []
 r = 0
+#k = 0
 if not interactive:
     for x in readlines:
         if x:
@@ -276,10 +307,16 @@ if not interactive:
         for com in shlex.split(line, posix=False):
             prog[x].append(com)
 
+    oprog = copy.deepcopy(prog)
+    #print(prog, oprog)
     if prog:
-        for x, item in enumerate(prog):
-            r = x
+        while r < len(prog):
+            #print(oprog)
             evaleasm()
+            r+=1
+        #for x, item in enumerate(prog):
+        #    r = x
+        #    evaleasm()
 else:
     if debug:
         print('Easm Interactive - Debug Mode:')
