@@ -2,6 +2,7 @@
 import sys
 import shlex
 import copy
+import argparse
 
 # --!@#$%^&*()
 
@@ -9,7 +10,12 @@ class EasmError(Exception):
     pass
 
 if not '--!@#$%^&*()' in sys.argv:
-    if '-d' in sys.argv or '--debug' in sys.argv:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--debug',action="store_true", help='show debug output')
+    parser.add_argument('file',default=None,nargs='?', help='easm file to run')
+    args = parser.parse_args()
+    #if '-d' in sys.argv or '--debug' in sys.argv:
+    if args.debug:
         debug = True
         if sys.argv[1] == '-d' or sys.argv[1] == '--debug':
             sys.argv.pop(1)
@@ -26,12 +32,8 @@ if not '--!@#$%^&*()' in sys.argv:
         binary = False
 
     try:
-        if binary:
-            with open(sys.argv[1], 'rb') as f:
-                readlines = f.read().splitlines()
-        else:
-            with open(sys.argv[1], 'r', encoding='utf-8') as f:
-                readlines = f.read().splitlines()
+        with open(args.file, 'r', encoding='utf-8') as f:
+            readlines = f.read().splitlines()
         interactive = False
     except:
         interactive = True
@@ -190,7 +192,7 @@ coms = {'pushint': pushint, 'pushstr': pushstr, 'pullint': pullint, 'pullstr': p
         'peekstr': peekstr, 'string': string, 'int': toint, 'concat': concat,
         'show': show, 'add': add, 'mult': mult, 'div': div, 'exit': exitprog,
         'intvar': intvar, 'strvar': strvar,'ask':ask,'if':eif,'else':eelse,'eq':eq,'not':enot,':':label,'goto':goto}
-print(coms.keys())
+#print(coms.keys())
 # coms = ['pushint', 'pushstr', 'pullint', 'pullstr', 'string', 'int', 'show']
 is_if=True
 
