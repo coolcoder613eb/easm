@@ -71,7 +71,7 @@ def pushint():
 
 def pushstr():
     statement = evaleasm()
-    if statement and type(statement) == str:
+    if statement is not None and type(statement) == str:
         str_stack.append(statement)
     else:
         raiseerror('Error in pushstr!')
@@ -99,7 +99,7 @@ def string():
 
 
 def toint():
-    return int(evaleasm())
+    return int(float(evaleasm()))
 
 
 def add():
@@ -107,18 +107,37 @@ def add():
 
 
 def adds():
-    try:
-        return int(evaleasm()) + int(evaleasm())
-    except:
+    one = evaleasm()
+    two = evaleasm()
+    if one is not None and type(one) == int and two is not None and type(two) == int:
+        return one + two
+    else:
         raiseerror('Error in adds!')
 
 
 def mult():
     return int_stack[-1] * int_stack[-2]
 
+def mults():
+    one = evaleasm()
+    two = evaleasm()
+    if one is not None and type(one) == int and two is not None and type(two) == int:
+        return one * two
+    else:
+        raiseerror('Error in mults!')
+
+
 
 def div():
     return str(int_stack[-1] / int_stack[-2])
+
+def divs():
+    one = evaleasm()
+    two = evaleasm()
+    if one is not None and type(one) == int and two is not None and type(two) == int:
+        return str(one / two)
+    else:
+        raiseerror('Error in divs!')
 
 
 def concat():
@@ -126,7 +145,12 @@ def concat():
 
 
 def concats():
-    return str(evaleasm()) + str(evaleasm())
+    one = evaleasm()
+    two = evaleasm()
+    if one is not None and type(one) == str and two is not None and type(two) == str:
+        return one + two
+    else:
+        raiseerror('Error in concats!')
 
 
 def strvar():
