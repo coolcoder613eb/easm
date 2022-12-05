@@ -1,0 +1,121 @@
+intvar column 2
+intvar row 2
+strvar i "h"
+strvar text0 "As you enter the grassy meadow, you see wildflowers growing among the grass, and you hear birds singing.\n"
+strvar text1 "As you walk through the woods,\n you chance upon A. a small cottage almost hidden between the trees.\nTo the south is the village.\n"
+strvar text2 "As you enter the thick forest,\n you see A. a large tree much higher than the rest.\n As you crane your neck to see, you think you see something glint in the high branches!\n"
+strvar text3 "As you walk up the gentle hill,\n you notice A. a hole in the trunk of B. the old tree that has been there as long as anybody can remember.\n As you look more closely you are startled to find that the old tree is hollow!\nTo the east is the village\n"
+strvar text4 "As you walk into the village, you see A. a bakery\n B. a small blacksmiths shop C. a fishmongers and \nD. a butcher.\n"
+strvar text5 "As you gaze at the mighty mount Evermore,\n you notice A. a cave in the cliff at the base of the mountain.\n To the west is the village.\n"
+strvar text6 "As you walk beside the river,\n you see fish darting about in the clear water.\nTo the east is the bridge.\n"
+strvar text7 "You can see the river flowing through the meadow,\n and to the south is A. a bridge. \nTo the north is the village.\n"
+strvar text8 "As you enter the cornfield,\n you gradually relax as you listen to the soothing sound of the rustling cornstalks.\n To the north you can see mount Evermore.\n"
+strvar text9 "Sorry, you can't go that way\n"
+strvar text10 "type n, s, e, or w: "
+strvar place "22"
+
+goto main
+
+: place11
+show text0 
+show text10 
+strvar i ask
+if eq i "n" show text9
+if eq i "s" intvar column adds column 1
+if eq i "e" intvar row adds row 1
+if eq i "w" show text9
+goto main
+
+: place12
+show text1 
+show text10 
+strvar i ask
+if eq i "n" show text9
+if eq i "s" intvar column adds column 1
+if eq i "e" intvar row adds row 1
+if eq i "w" intvar row adds row -1
+goto main
+
+: place13
+show text2 
+show text10 
+strvar i ask
+if eq i "n" show text9
+if eq i "s" intvar column adds column 1
+if eq i "e" show text9
+if eq i "w" intvar row adds row -1
+goto main
+
+: place21
+show text3 
+show text10 
+strvar i ask
+if eq i "n" intvar column adds column -1
+if eq i "s" intvar column adds column 1
+if eq i "e" intvar row adds row 1
+if eq i "w" show text9
+goto main
+
+: place22
+show text4 
+show text10 
+strvar i ask
+if eq i "n" intvar column adds column -1
+if eq i "s" intvar column adds column 1
+if eq i "e" intvar row adds row 1
+if eq i "w" intvar row adds row -1
+goto main
+
+: place23
+show text5 
+show text10 
+strvar i ask
+if eq i "n" intvar column adds column -1
+if eq i "s" intvar column adds column 1
+if eq i "e" show text9
+if eq i "w" intvar row adds row -1
+goto main
+
+: place31
+show text6 
+show text10 
+strvar i ask
+if eq i "n" intvar column adds column -1
+if eq i "s" show text9
+if eq i "e" intvar row adds row 1
+if eq i "w" show text9
+goto main
+
+: place32
+show text7 
+show text10 
+strvar i ask
+if eq i "n" intvar column adds column -1
+if eq i "s" show text9
+if eq i "e" intvar row adds row 1
+if eq i "w" intvar row adds row -1
+goto main
+
+: place33
+show text8 
+show text10 
+strvar i ask
+if eq i "n" intvar column adds column -1
+if eq i "s" show text9
+if eq i "e" show text9
+if eq i "w" intvar row adds row -1
+goto main
+
+: main
+strvar place concats string column string row
+if eq place "11" goto place11
+if eq place "12" goto place12
+if eq place "13" goto place13
+if eq place "21" goto place21
+if eq place "22" goto place22
+if eq place "23" goto place23
+if eq place "31" goto place11
+if eq place "32" goto place12
+if eq place "33" goto place13
+
+goto main
