@@ -1,0 +1,20 @@
+; 99 bottles of beer program
+; adapted from http://web.mit.edu/kenta/www/two/beer_s_z.html language vax dcl
+pushint 100
+: firstloop
+if eq peekint 1 goto lastbottle
+show string peekint
+show " Bottles of beer on the wall\n"
+show string peekint
+show " Bottles of beer\n"
+show "If one of them should happen to fall\n"
+pushint -1
+pushint add
+show string peekint
+show " Bottles of beer on the wall\n\n"
+goto firstloop
+: lastbottle
+show "1 Bottle of beer on the wall\n"
+show "1 Bottle of beer\n"
+show "If it should happen to fall\n"
+show "No more Bottles of beer on the wall"
