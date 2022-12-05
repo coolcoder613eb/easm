@@ -303,6 +303,12 @@ if not interactive:
     oprog = copy.deepcopy(prog)
     #print(prog, oprog)
     if prog:
+        for x,item in enumerate(prog):
+            r=x
+            if prog[r].pop(0) == ':':
+                label()
+        r=0
+        prog = copy.deepcopy(oprog)
         while r < len(prog):
             #print(oprog)
             evaleasm()
