@@ -24,7 +24,7 @@ text = [('pushint', 'push next onto int stack'),
         ('ask', 'read a line from stdin'),
         ('if', 'conditional statement if'),
         ('else', 'conditional statement else'),
-        ('eq', 'return wether the next two expression are equal'),
+        ('eq', 'return whether the next two expression are equal'),
         ('not', 'boolean not'),
         (':', 'declare label'),
         ('goto', 'go to label'),
@@ -35,7 +35,9 @@ text = [('pushint', 'push next onto int stack'),
         ('divs', 'divide the next two statements(returns str)'),
         ('mults', 'multiply the next two statements'),
         ('use','use optional command'),
-        ('rand','random int between the next two statements(optional))')] # < >
+        ('rand','random int between the next two statements(optional))'),
+        ('<', 'return whether, of the next two expressions, if the first one is less than the second'),
+        ('>', 'return whether, of the next two expressions, if the first one is more than the second')] # < >
 longest = 0
 longest2 = 0
 for x in text:
@@ -66,6 +68,6 @@ description += ' ' * (longest2-len(description))
 print('|',command,'|',description,'|')
 print('|','-'* longest,'|','-'* longest2,'|')
 for x in text:
-        print('|',x[0],'|',x[1],'|')
+        print('|',x[0].replace('>','\\>'),'|',x[1],'|')
 
 #console.print(table)
