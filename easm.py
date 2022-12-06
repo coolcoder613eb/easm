@@ -99,7 +99,10 @@ def string():
 
 
 def toint():
-    return int(float(evaleasm()))
+    try:
+        return int(float(evaleasm()))
+    except:
+        raiseerror('Error in int!')
 
 
 def add():
@@ -217,6 +220,39 @@ def startbrace():
 def endbrace():
     return endbraces
 
+def more():
+    one = evaleasm()
+    two = evaleasm()
+    if one > two:
+        return 1
+    else:
+        return 0
+
+def less():
+    one = evaleasm()
+    two = evaleasm()
+    if one < two:
+        return 1
+    else:
+        return 0
+
+def use():
+    global random
+    name = evaleasm(isname=True)
+    if name == 'rand':
+        import random
+        coms.update({'rand': rand})
+
+def rand():
+    one = evaleasm()
+    two = evaleasm()
+    if one is not None and type(one) == int and two is not None and type(two) == int:
+        return random.randint(one,two)
+    else:
+        raiseerror('Error in rand!')
+
+def err_rand():
+    raiseerror('You are not using rand!')
 
 def label():
     global labels
@@ -256,7 +292,7 @@ coms = {'pushint': pushint, 'pushstr': pushstr, 'pullint': pullint, 'pullstr': p
         'peekstr': peekstr, 'string': string, 'int': toint, 'concat': concat,
         'show': show, 'add': add, 'mult': mult, 'div': div, 'exit': exitprog,
         'intvar': intvar, 'strvar': strvar, 'ask': ask, 'if': eif, 'else': eelse, 'eq': eq, 'not': enot, ':': label,
-        'goto': goto, '{': startbrace, '}': endbrace, 'concats': concats, 'adds': adds}
+        'goto': goto, '{': startbrace, '}': endbrace, 'concats': concats, 'adds': adds,'use':use,'rand':err_rand,'>':more,'<':less}
 # print(coms.keys())
 # coms = ['pushint', 'pushstr', 'pullint', 'pullstr', 'string', 'int', 'show']
 is_if = True

@@ -33,7 +33,9 @@ text = [('pushint', 'push next onto int stack'),
         ('concats', 'concatenate the next two statements'),
         ('adds', 'add the next two statements'),
         ('divs', 'divide the next two statements(returns str)'),
-        ('mults', 'multiply the next two statements')]
+        ('mults', 'multiply the next two statements'),
+        ('use','use optional command'),
+        ('rand','random int between the next two statements(optional))')] # < >
 longest = 0
 longest2 = 0
 for x in text:

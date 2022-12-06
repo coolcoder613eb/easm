@@ -1,0 +1,13 @@
+use rand
+
+intvar num rand 1 100
+
+: main
+
+show "guess my number 1-100:"
+strvar guess ask
+if < int guess num show "Too Low!\n"
+if > int guess num show "Too High!\n"
+if eq int guess num { show "You Did It!\n" exit }
+
+goto main
