@@ -315,7 +315,7 @@ def tonum(num):
 
 def tostr(txt):
     if txt.startswith('"') and txt.endswith('"'):
-        return txt.removeprefix('"').removesuffix('"').replace(r'\n', '\n')
+        return txt.removeprefix('"').removesuffix('"').encode('latin-1', 'backslashreplace').decode('unicode-escape')
     else:
         return False
 
@@ -404,7 +404,10 @@ try:
 
         for x, line in enumerate(proglines):
             prog.append([])
-            for com in shlex.split(line, posix=False):
+            s = shlex.shlex(line, posix=False,punctuation_chars=True)
+            s.whitespace = ' (),'
+            s.commenters = ';'
+            for com in s:
                 prog[x].append(com)
 
         oprog = copy.deepcopy(prog)
@@ -431,7 +434,10 @@ try:
         while True:
             prog = [[]]
             line = input('> ')
-            for com in shlex.split(line, posix=False):
+            s = shlex.shlex(line, posix=False,punctuation_chars=True)
+            s.whitespace=' (),'
+            s.commenters=';'
+            for com in s:#shlex.split(line, posix=False):
                 prog[0].append(com)
             if prog[0]:
                 for x, item in enumerate(prog):
