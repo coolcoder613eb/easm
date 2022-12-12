@@ -1,0 +1,19 @@
+use rand
+intvar num 0
+intvar result 0
+intvar c 0
+: addnum
+if eq num 100000 goto endaddnum
+pushint rand 1 10000
+intvar num adds num 1
+goto addnum
+: endaddnum
+; intvar c pullint
+; show concats "\r" "     "
+; string concat "\r" string c
+if eq num 0 goto end
+; show "intvar result adds result pullint\n"
+intvar result adds result pullint
+intvar num adds num -1
+goto endaddnum
+: end

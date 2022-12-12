@@ -160,7 +160,7 @@ def concats():
 def strvar():
     var_name = evaleasm(isname=True)
     statement = evaleasm()
-    if statement and type(statement) == str:
+    if statement is not None and type(statement) == str:
         str_vars.update({var_name: statement})
     else:
         raiseerror('Error in strvar!')
@@ -171,7 +171,7 @@ def strvar():
 def intvar():
     var_name = evaleasm(isname=True)
     statement = evaleasm()
-    if statement and type(statement) == int:
+    if statement is not None and type(statement) == int:
         int_vars.update({var_name: statement})
     else:
         raiseerror('Error in intvar!')
