@@ -11,7 +11,12 @@ class EndBrace():
     pass
 
 
+class EndBrack():
+    pass
+
+
 endbraces = EndBrace()
+endbracks = EndBrack()
 
 if not '--!@#$%^&*()' in sys.argv:
     parser = argparse.ArgumentParser()
@@ -121,6 +126,7 @@ def adds():
 def mult():
     return int_stack[-1] * int_stack[-2]
 
+
 def mults():
     one = evaleasm()
     two = evaleasm()
@@ -130,9 +136,9 @@ def mults():
         raiseerror('Error in mults!')
 
 
-
 def div():
     return str(int_stack[-1] / int_stack[-2])
+
 
 def divs():
     one = evaleasm()
@@ -220,6 +226,7 @@ def startbrace():
 def endbrace():
     return endbraces
 
+
 def more():
     one = evaleasm()
     two = evaleasm()
@@ -227,6 +234,7 @@ def more():
         return 1
     else:
         return 0
+
 
 def less():
     one = evaleasm()
@@ -236,23 +244,82 @@ def less():
     else:
         return 0
 
+
 def use():
     global random
     name = evaleasm(isname=True)
     if name == 'rand':
         import random
         coms.update({'rand': rand})
+    if name == 'asc':
+        import random
+        coms.update({'asc': asc})
+
 
 def rand():
     one = evaleasm()
     two = evaleasm()
     if one is not None and type(one) == int and two is not None and type(two) == int:
-        return random.randint(one,two)
+        return random.randint(one, two)
     else:
         raiseerror('Error in rand!')
 
+
 def err_rand():
     raiseerror('You are not using rand!')
+
+
+def st_sq_br():
+    c = evaleasm()
+    l = []
+    while c != endbracks:
+        l.append(c)
+        c = evaleasm()
+    return l
+
+
+def en_sq_br():
+    return endbracks
+
+
+def elist():
+    list_name = evaleasm(isname=True)
+    statement = evaleasm()
+    # print(statement)
+    if statement is not None and type(statement) == str:
+        statement = list(statement)
+    if statement is not None and type(statement) == list:
+        int_lists.update({list_name: statement})
+    else:
+        raiseerror('Error in list!')
+    return None
+
+
+def setitem():
+    list_name = evaleasm(isname=True)
+    item = evaleasm()
+    value = evaleasm()
+    # print(statement)
+    if item is not None and type(item) == int and value is not None:
+        int_lists[list_name][item] = value
+    else:
+        raiseerror('Error in setitem!')
+    return None
+
+def length():
+    return len(int_lists[evaleasm(isname=True)])
+
+def asc():
+    thing = evaleasm()
+    if type(thing) == int:
+        return chr(thing)
+    elif type(thing) == str:
+        return ord(thing)
+    else:
+        raiseerror('Error in asc!')
+
+def err_asc():
+    raiseerror('You are not using asc!')
 
 def label():
     global labels
@@ -287,12 +354,21 @@ def show():
     return None
 
 
+def getlistitem(name):
+    item = evaleasm()
+    if item is not None and type(item) == int:
+        return int_lists[name][item]
+    else:
+        raiseerror('Error in getintlistitem!')
+
+
 proglines = []
 coms = {'pushint': pushint, 'pushstr': pushstr, 'pullint': pullint, 'pullstr': pullstr, 'peekint': peekint,
         'peekstr': peekstr, 'string': string, 'int': toint, 'concat': concat,
         'show': show, 'add': add, 'mult': mult, 'div': div, 'exit': exitprog,
         'intvar': intvar, 'strvar': strvar, 'ask': ask, 'if': eif, 'else': eelse, 'eq': eq, 'not': enot, ':': label,
-        'goto': goto, '{': startbrace, '}': endbrace, 'concats': concats, 'adds': adds,'use':use,'rand':err_rand,'>':more,'<':less}
+        'goto': goto, '{': startbrace, '}': endbrace, 'concats': concats, 'adds': adds, 'use': use, 'rand': err_rand,
+        '>': more, '<': less, 'list': elist, '[': st_sq_br, ']': en_sq_br,'setitem':setitem,'length':length,'asc':err_asc}
 # print(coms.keys())
 # coms = ['pushint', 'pushstr', 'pullint', 'pullstr', 'string', 'int', 'show']
 is_if = True
@@ -301,6 +377,7 @@ str_stack = []
 int_stack = []
 str_vars = {}
 int_vars = {}
+int_lists = {}
 labels = {}
 
 
@@ -336,6 +413,13 @@ def isintvar(statement):
         return False
 
 
+def islist(statement):
+    if statement in int_lists.keys():
+        return True
+    else:
+        return False
+
+
 def isstrvar(statement):
     if statement in str_vars.keys():
         return True
@@ -366,6 +450,7 @@ def evaleasm(isname=False):
     is_com = iscom(statement)
     is_strvar = isstrvar(statement)
     is_intvar = isintvar(statement)
+    is_list = islist(statement)
     if command:
         print('statement:', [statement])
 
@@ -373,8 +458,10 @@ def evaleasm(isname=False):
         # print('statement:',statement,'| is string:', [isstr],'| is num:', [isnum],'| int stack:', int_stack,'| str stack:', str_stack)
 
         print('statement:', [statement], 'is command:', [is_com], 'is string:', [isstr], 'is num:', [isnum],
-              'is str var:', [is_strvar], 'is int var:', [is_intvar], 'int stack:', int_stack,
-              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars], 'labels:', [labels], 'is if',
+              'is str var:', [is_strvar], 'is int var:', [is_intvar], 'is list:', [is_list], 'int stack:',
+              int_stack,
+              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars], 'int lists:', [int_lists],
+              'labels:', [labels], 'is if',
               is_if)
     # print(isnum is not None)
     if isnum is not False:
@@ -389,6 +476,8 @@ def evaleasm(isname=False):
         return str_vars[statement]
     if is_intvar is not False:
         return int_vars[statement]
+    if is_list is not False:
+        return getlistitem(statement)
 
 
 prog = []
@@ -404,7 +493,7 @@ try:
 
         for x, line in enumerate(proglines):
             prog.append([])
-            s = shlex.shlex(line, posix=False,punctuation_chars=True)
+            s = shlex.shlex(line, posix=False, punctuation_chars=True)
             s.whitespace = ' (),'
             s.commenters = ';'
             for com in s:
@@ -434,10 +523,10 @@ try:
         while True:
             prog = [[]]
             line = input('> ')
-            s = shlex.shlex(line, posix=False,punctuation_chars=True)
-            s.whitespace=' (),'
-            s.commenters=';'
-            for com in s:#shlex.split(line, posix=False):
+            s = shlex.shlex(line, posix=False, punctuation_chars=True)
+            s.whitespace = ' (),'
+            s.commenters = ';'
+            for com in s:  # shlex.split(line, posix=False):
                 prog[0].append(com)
             if prog[0]:
                 for x, item in enumerate(prog):
