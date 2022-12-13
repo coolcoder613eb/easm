@@ -217,6 +217,31 @@ def ask():
     return input()
 
 
+def askkey():
+    try:
+        # for Windows-based systems
+        import msvcrt # If successful, we are on Windows
+        g = str(msvcrt.getch(),'utf-8')
+        print(g,end='')
+        return g
+
+    except ImportError:
+        # for POSIX-based systems (with termios & tty support)
+        import tty, sys, termios  # raises ImportError if unsupported
+
+        fd = sys.stdin.fileno()
+        oldSettings = termios.tcgetattr(fd)
+
+        try:
+            tty.setcbreak(fd)
+            answer = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, oldSettings)
+        answer = str(answer,'utf-8')
+        print(answer, end='')
+        return answer
+
+
 def startbrace():
     while evaleasm() != endbraces:
         pass
@@ -295,6 +320,17 @@ def elist():
     return None
 
 
+def newitem():
+    list_name = evaleasm(isname=True)
+    value = evaleasm()
+    # print(statement)
+    if value is not None and type(value) == int:
+        int_lists[list_name].append(value)
+    else:
+        raiseerror('Error in newitem!')
+    return None
+
+
 def setitem():
     list_name = evaleasm(isname=True)
     item = evaleasm()
@@ -320,6 +356,11 @@ def asc():
 
 def err_asc():
     raiseerror('You are not using asc!')
+
+
+def eand():
+    return int(evaleasm() and evaleasm())
+
 
 def label():
     global labels
@@ -362,13 +403,16 @@ def getlistitem(name):
         raiseerror('Error in getintlistitem!')
 
 
+
+
 proglines = []
 coms = {'pushint': pushint, 'pushstr': pushstr, 'pullint': pullint, 'pullstr': pullstr, 'peekint': peekint,
         'peekstr': peekstr, 'string': string, 'int': toint, 'concat': concat,
         'show': show, 'add': add, 'mult': mult, 'div': div, 'exit': exitprog,
         'intvar': intvar, 'strvar': strvar, 'ask': ask, 'if': eif, 'else': eelse, 'eq': eq, 'not': enot, ':': label,
         'goto': goto, '{': startbrace, '}': endbrace, 'concats': concats, 'adds': adds, 'use': use, 'rand': err_rand,
-        '>': more, '<': less, 'list': elist, '[': st_sq_br, ']': en_sq_br,'setitem':setitem,'length':length,'asc':err_asc}
+        '>': more, '<': less, 'list': elist, '[': st_sq_br, ']': en_sq_br,'setitem':setitem,'length':length,'asc':err_asc,
+        'newitem': newitem,'askkey':askkey,'and': eand}
 # print(coms.keys())
 # coms = ['pushint', 'pushstr', 'pullint', 'pullstr', 'string', 'int', 'show']
 is_if = True
@@ -437,7 +481,7 @@ def isstrvar(statement):
 # print('\n'.join(proglines))
 
 def raiseerror(err):
-    sys.stderr.write('Error: ' + err)
+    sys.stderr.write(f'Error on line {r}: ' + err)
     sys.exit()
 
 
@@ -460,7 +504,7 @@ def evaleasm(isname=False):
         print('statement:', [statement], 'is command:', [is_com], 'is string:', [isstr], 'is num:', [isnum],
               'is str var:', [is_strvar], 'is int var:', [is_intvar], 'is list:', [is_list], 'int stack:',
               int_stack,
-              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars], 'int lists:', [int_lists],
+              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars], 'lists:',[int_lists['txt'] if 'txt' in int_lists else ''],
               'labels:', [labels], 'is if',
               is_if)
     # print(isnum is not None)

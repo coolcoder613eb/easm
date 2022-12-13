@@ -1,2 +1,83 @@
+use asc
 show "Program: "
 strvar text ask
+list txt text
+intvar i 0
+list mem [ 0 ]
+; show "1"
+: incrmem
+if eq length mem 30000 goto endincrmem
+newitem mem 0
+goto incrmem
+: endincrmem
+
+intvar thepointer 0
+intvar cursor 0
+
+goto main
+
+: 91if
+intvar cursor1 adds cursor 1
+strvar command txt cursor1
+intvar c asc command
+if eq c 91 intvar jmp adds jmp 1
+if eq c 93 intvar jmp adds jmp -1
+if and eq c 93 not jmp { intvar cursor1 adds cursor1 1 goto main}
+goto 91if
+
+
+: case91
+; show "91\n"
+intvar jmp 1
+if not mem thepointer goto 91if
+intvar cursor adds cursor 1
+intvar cursor1 adds cursor 1
+goto main
+
+: 93if
+; show "93if\n"
+intvar cursor adds cursor 1
+strvar command txt cursor
+intvar c asc command
+if eq c 91 intvar jmp adds jmp -1
+if eq c 93 intvar jmp adds jmp 1
+; show concats string eq c 91 "\n"
+; show concats string jmp "\n"
+; show string and eq c 91 not jmp
+if and eq c 91 not jmp { show "a" show "b" }
+if and eq c 91 not jmp { intvar cursor adds cursor 1 goto main}
+goto 91if
+
+
+: case93
+; show "93\n"
+intvar jmp 1
+if mem thepointer goto 93if
+intvar cursor adds cursor 1
+goto main
+
+
+: main
+; show "h"
+; show command
+strvar command txt cursor
+intvar c asc command
+; show concats concats concats string thepointer command string c " "
+if eq c 62 intvar thepointer adds thepointer 1
+
+if eq c 60 intvar thepointer adds thepointer -1
+
+if eq c 43 setitem mem thepointer adds thepointer 1
+
+if eq c 45 setitem mem thepointer adds thepointer -1
+
+if eq c 46 show asc mem thepointer
+
+if eq c 44 setitem mem thepointer askkey
+
+if eq c 91 goto case91
+
+if eq c 93 goto case93
+
+intvar cursor adds cursor 1
+goto main
