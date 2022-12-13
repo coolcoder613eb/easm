@@ -17,21 +17,20 @@ intvar cursor 0
 goto main
 
 : 91if
-intvar cursor1 adds cursor 1
-strvar command txt cursor1
+intvar cursor adds cursor 1
+strvar command txt cursor
 intvar c asc command
 if eq c 91 intvar jmp adds jmp 1
 if eq c 93 intvar jmp adds jmp -1
-if and eq c 93 not jmp { intvar cursor1 adds cursor1 1 goto main}
+if and eq c 93 not jmp { intvar cursor adds cursor 1 goto main}
 goto 91if
 
-
+; https://rosettacode.org/w/index.php?title=Execute_Brain****&section=19#BaCon
 : case91
 ; show "91\n"
 intvar jmp 1
 if not mem thepointer goto 91if
 intvar cursor adds cursor 1
-intvar cursor1 adds cursor 1
 goto main
 
 : 93if
