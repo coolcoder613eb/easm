@@ -398,7 +398,11 @@ def show():
 def getlistitem(name):
     item = evaleasm()
     if item is not None and type(item) == int:
-        return int_lists[name][item]
+        try:
+            return int_lists[name][item]
+        except:
+            print(int_lists[name],item)
+            raiseerror('Error in getintlistitem!')
     else:
         raiseerror('Error in getintlistitem!')
 
@@ -504,7 +508,7 @@ def evaleasm(isname=False):
         print('statement:', [statement], 'is command:', [is_com], 'is string:', [isstr], 'is num:', [isnum],
               'is str var:', [is_strvar], 'is int var:', [is_intvar], 'is list:', [is_list], 'int stack:',
               int_stack,
-              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars], 'lists:',[int_lists['txt'] if 'txt' in int_lists else ''],
+              'str stack:', str_stack, 'str vars:', [str_vars], 'int vars:', [int_vars], 'lists:',[int_lists],
               'labels:', [labels], 'is if',
               is_if)
     # print(isnum is not None)
