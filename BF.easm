@@ -14,27 +14,32 @@ goto incrmem
 intvar thepointer 0
 intvar cursor 0
 
+; show string length txt
+
 goto main
 
-: 91if
+: if91
+; show "if91\n"
 intvar cursor adds cursor 1
 strvar command txt cursor
 intvar c asc command
 if eq c 91 intvar jmp adds jmp 1
 if eq c 93 intvar jmp adds jmp -1
-if and eq c 93 not jmp { intvar cursor adds cursor 1 goto main}
-goto 91if
+if and eq c 93 not jmp intvar cursor adds cursor 1 
+if and eq c 93 not jmp goto main
+goto if91
 
 ; https://rosettacode.org/w/index.php?title=Execute_Brain****&section=19#BaCon
 : case91
 ; show "91\n"
 intvar jmp 1
-if not mem thepointer goto 91if
+; show concats string not mem thepointer " "
+if not mem thepointer goto if91
 intvar cursor adds cursor 1
 goto main
 
-: 93if
-; show "93if\n"
+: if93
+; show "if93\n"
 intvar cursor adds cursor 1
 strvar command txt cursor
 intvar c asc command
@@ -43,15 +48,16 @@ if eq c 93 intvar jmp adds jmp 1
 ; show concats string eq c 91 "\n"
 ; show concats string jmp "\n"
 ; show string and eq c 91 not jmp
-if and eq c 91 not jmp { show "a" show "b" }
-if and eq c 91 not jmp { intvar cursor adds cursor 1 goto main}
-goto 91if
+if and eq c 91 not jmp intvar cursor adds cursor 1 
+if and eq c 91 not jmp goto main
+goto if91
 
 
 : case93
 ; show "93\n"
 intvar jmp 1
-if mem thepointer goto 93if
+; show concats string mem thepointer " "
+if mem thepointer goto if93
 intvar cursor adds cursor 1
 goto main
 
@@ -61,6 +67,7 @@ goto main
 ; show command
 strvar command txt cursor
 intvar c asc command
+show concats asc mem thepointer " "
 ; show concats concats concats string thepointer command string c " "
 if eq c 62 intvar thepointer adds thepointer 1
 
@@ -76,7 +83,7 @@ if eq c 44 setitem mem thepointer askkey
 
 if eq c 91 goto case91
 
-if eq c 93 goto case93
+else if eq c 93 goto case93
 
 intvar cursor adds cursor 1
 goto main
