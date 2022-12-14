@@ -3,6 +3,7 @@ import sys
 import shlex
 import copy
 import argparse
+import importlib
 
 
 # --!@#$%^&*()
@@ -406,6 +407,15 @@ def getlistitem(name):
     else:
         raiseerror('Error in getintlistitem!')
 
+def usepy():
+    name = evaleasm(isname=True)
+    try:
+        imports.update({name: importlib.import_module(name)})
+        if imports[name].level == 1:
+            coms.update(imports[name].setup(raiseerror))
+    except:
+        raiseerror("Error in usepy")
+
 
 
 
@@ -427,6 +437,7 @@ str_vars = {}
 int_vars = {}
 int_lists = {}
 labels = {}
+imports = {}
 
 
 def tonum(num):
@@ -436,7 +447,6 @@ def tonum(num):
         return False
 
 
-# tonum = int
 
 def tostr(txt):
     if txt.startswith('"') and txt.endswith('"'):
@@ -445,7 +455,6 @@ def tostr(txt):
         return False
 
 
-# tostr = str
 
 def iscom(com):
     if com in coms:
