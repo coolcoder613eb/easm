@@ -90,6 +90,6 @@ usage += ' ' * (longest3 - len(usage))
 print('|', command, '|', description, '|', usage, '|')
 print('|', '-' * longest, '|', '-' * longest2, '|', '-' * longest3, '|')
 for x in text:
-    print('|', x[0].replace('>', '\\>'), '|', x[1], '|','`'+x[2].replace('>', '\\>')+'`', '|')
+    print('|', x[0].replace('>', '\\>'), '|', x[1], '|','`'+x[2]+'`', '|')
 
 # console.print(table)

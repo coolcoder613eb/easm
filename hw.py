@@ -4,5 +4,5 @@ level = 1
 def hw():
     print('Hello World!')
 
-def setup(raiseerror):
+def setup(raiseerror,evaleasm):
     return {'hw':hw}

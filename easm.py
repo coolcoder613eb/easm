@@ -412,7 +412,7 @@ def usepy():
     try:
         imports.update({name: importlib.import_module(name)})
         if imports[name].level == 1:
-            coms.update(imports[name].setup(raiseerror))
+            coms.update(imports[name].setup(raiseerror,evaleasm))
     except:
         raiseerror("Error in usepy")
 
@@ -426,7 +426,7 @@ coms = {'pushint': pushint, 'pushstr': pushstr, 'pullint': pullint, 'pullstr': p
         'intvar': intvar, 'strvar': strvar, 'ask': ask, 'if': eif, 'else': eelse, 'eq': eq, 'not': enot, ':': label,
         'goto': goto, '{': startbrace, '}': endbrace, 'concats': concats, 'adds': adds, 'use': use, 'rand': err_rand,
         '>': more, '<': less, 'list': elist, '[': st_sq_br, ']': en_sq_br,'setitem':setitem,'length':length,'asc':err_asc,
-        'newitem': newitem,'askkey':askkey,'and': eand}
+        'newitem': newitem,'askkey':askkey,'and': eand,'usepy':usepy}
 # print(coms.keys())
 # coms = ['pushint', 'pushstr', 'pullint', 'pullstr', 'string', 'int', 'show']
 is_if = True
