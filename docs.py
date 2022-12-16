@@ -48,6 +48,7 @@ text = [('pushint', 'push next onto int stack', 'pushint <num>'),
         ('newitem', 'add an item to a list', 'newitem <name> <statement>'),
         ('askkey', 'read a single key from stdin', 'askkey'),
         ('and', 'return whether the next two statements are both true', 'and <num> <num>'),
+        ('usepy', 'use command(s) defined in a python file', 'usepy <name_without_ext>'),
         ]  # < >
 longest = len("command")
 longest2 = len("description")

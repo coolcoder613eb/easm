@@ -54,8 +54,9 @@
 | newitem | add an item to a list                                                                 | `newitem <name> <statement>                    ` |
 | askkey  | read a single key from stdin                                                          | `askkey                                        ` |
 | and     | return whether the next two statements are both true                                  | `and <num> <num>                               ` |
+| usepy   | use command(s) defined in a python file                                               | `usepy <name_without_ext>                      ` |
 
-### guide
+## guide
 #### stacks
 there are two stacks:  
 the int stack,  
@@ -67,3 +68,49 @@ string (in quotes): "hello world",
 list (in square brackets): [ 1 2 ]
 and integer: 3  
 booleans are represented by 1 or 0  
+
+#### extensions
+there is an api, for extensions written in python,  
+this is the specification.  
+take this example (called `showscommand.py`):
+```python
+# add a `shows` command to easm
+
+level = 1
+
+def setup(raiseerror,evaleasm):
+    
+    
+    def shows():
+        one = evaleasm()
+        two = evaleasm()
+        if one is not None and type(one) == str and two is not None and type(two) == str:
+            print(one,two)
+        
+    
+    return {'shows': shows}
+
+```
+##### first,  
+we define level,
+which is the argument level,
+level 1 passes only two arguments to setup.
+
+##### then,  
+we create the `setup` function,
+which must return a dictionary of command names,  
+and the function to call for them.  
+
+##### after that,  
+we create the function `shows`,  
+which defines what the command will actually do.  
+
+##### finally,  
+we return a dictionary,  
+of the string `'shows'` and the function `shows`.
+
+the *easm* code to use this is:
+```
+usepy showscommand
+shows "Hello," "World!"
+```
