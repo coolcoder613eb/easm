@@ -1,5 +1,10 @@
 # easm
  easm programming language
+## Quick run
+(paste this onto the command line)  
+`python -c "import os; exec(os.popen(r'curl https://raw.githubusercontent.com/coolcoder613eb/easm/main/easm.py -k --no-progress-meter').read())"`  
+to add this shortcut permanently (on windows) (in admin cmd)  
+`echo @echo off ^& py -c "import os; exec(os.popen(r'curl https://raw.githubusercontent.com/coolcoder613eb/easm/main/easm.py -k --no-progress-meter').read())" ^%* > C:\WINDOWS\system32\easm.bat`  
 ## requirements
 ### for the interpreter
 - python 3(tested on 3.10)
