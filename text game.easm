@@ -1,3 +1,4 @@
+show "WARNING! this game is buggy(s goes n)\n"
 intvar column 2
 intvar row 2
 strvar i "h"

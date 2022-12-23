@@ -2,3 +2,4 @@
 bin/
 !bin/*.exe
 !bin/*.py
+__pycache__/

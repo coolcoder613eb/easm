@@ -1,5 +1,5 @@
 ; 99 bottles of beer program
-; adapted from http://web.mit.edu/kenta/www/two/beer_s_z.html language vax dcl
+; adapted from http://web.mit.edu/kenta/www/two/beer_s_z.html, language vax dcl
 pushint 100
 : firstloop
 if eq peekint 1 goto lastbottle
