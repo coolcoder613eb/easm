@@ -1,0 +1,4 @@
+: main
+pushstr ask
+show concats pullstr "\n"
+goto main

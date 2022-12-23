@@ -264,7 +264,7 @@ font = 'Consolas 15'
 repl = [
     [r'^[^"]*("[^"]*"[^"]*)*;.*?$', comments],
     [
-        '(^| )(pushint|pushstr|pullint|pullstr|peekint|peekstr|string|int|concat|show|add|mult|div|exit|intvar|strvar|ask|if|else|eq|not|:|goto|{|}|concats|adds|use|rand|>|<|list|[|]|newitem|askkey|and|usepy)($| )',
+        '(^| )(pushint|pushstr|pullint|pullstr|peekint|peekstr|string|int|concat|show|add|mult|div|exit|intvar|strvar|ask|if|else|eq|not|:|goto|{|}|concats|adds|use|rand|>|<|list|\[|]|newitem|askkey|and|usepy)($| )',
         keywords],
     ['".*?"', string],
     # ';(?!").*?$' #r'[^"]*;[^"]*$'
