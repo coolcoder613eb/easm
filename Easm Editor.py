@@ -269,6 +269,15 @@ repl = [
     ['".*?"', string],
     # ';(?!").*?$' #r'[^"]*;[^"]*$'
 ]
+#chatgpt revision
+repl = [
+    [r'^[^"]*("[^"]*"[^"]*)*;.*?$', comments],
+    [
+       r'\b(pushint|pushstr|pullint|pullstr|peekint|peekstr|string|int|concat|show|add|mult|div|exit|intvar|strvar|ask|if|else|eq|not|:|goto|{|}|concats|adds|use|rand|>|<|list|\[|]|newitem|askkey|and|usepy)\b',
+        keywords],
+    ['".*?"', string],
+    # ';(?!").*?$' #r'[^"]*;[^"]*$'
+]
 # repl = [
 #    ['(^| )(pushint|pushstr|pullint|pullstr|peekint|peekstr|string|int|concat|show|add|mult|div|exit|intvar|strvar|ask|if|else|eq|not|:|goto|{|}|concats|adds|use|rand|>|<|list|[|]|newitem|askkey|and|usepy)($| )', keywords],
 #    ['".*?"', string],
