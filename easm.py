@@ -535,8 +535,7 @@ def evaleasm(isname=False):
         return int_vars[statement]
     if is_list is not False:
         return getlistitem(statement)
-
-
+#print(['"'+x+'"' for x in coms.keys()],'\n',[x.__name__ for x in coms.values()])
 prog = []
 oprog = []
 r = 0

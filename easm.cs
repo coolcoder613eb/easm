@@ -190,7 +190,7 @@ namespace Easm
             Console.Error.WriteLine("Error: " + err);
             Environment.Exit(1);
         }
-        static void evaleasm()
+        static dynamic evaleasm()
         {
             string statement = prog[r].First();
             prog[r].RemoveAt(0);
@@ -237,7 +237,7 @@ namespace Easm
         static bool is_if = true;
         static List<List<string>> prog = new List<List<string>>();
         static List<List<string>> oprog = new List<List<string>>();
-        static Dictionary<string, Action> coms = new Dictionary<string, Action>()
+        static Dictionary<string, dynamic> coms = new Dictionary<string, dynamic>()
         {{"pushint",pushint}, {"pushstr",pushstr},{"pullint",pullint},{"pullstr",pullstr},{"peekint",peekint},
             {"peekstr",peekstr},
             {"string",estring},
