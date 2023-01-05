@@ -1,4 +1,7 @@
 # easm
+
+[![Join the chat at https://gitter.im/coolcoder613eb/easm](https://badges.gitter.im/coolcoder613eb/easm.svg)](https://gitter.im/coolcoder613eb/easm?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
  easm programming language
 ## Quick run
 (paste this onto the command line)  
